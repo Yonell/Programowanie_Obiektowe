@@ -1,5 +1,4 @@
 package agh.ics.oop;
-
 import java.util.Arrays;
 
 public class World {
@@ -24,24 +23,23 @@ public class World {
         Direction[] args_enum = new Direction[args.length];
         for(int i=0; i<args.length; i+=1){
             switch (args[i]){
-                case "f":
+                case "f" -> {
                     args_enum[len] = Direction.FORWARD;
                     len += 1;
-                    break;
-                case "b":
+                }
+                case "b" -> {
                     args_enum[len] = Direction.BACKWARD;
                     len += 1;
-                    break;
-                case "l":
+                }
+                case "l" -> {
                     args_enum[len] = Direction.LEFT;
                     len += 1;
-                    break;
-                case "r":
+                }
+                case "r" -> {
                     args_enum[len] = Direction.RIGHT;
                     len += 1;
-                    break;
-                default:
-                    break;
+                }
+                default -> {break;}
             }
         }
         Direction[] args_enum_copy = Arrays.copyOfRange(args_enum, 0, len);
