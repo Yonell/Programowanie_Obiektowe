@@ -4,7 +4,6 @@ package agh.ics.oop;
         FORWARD,
         BACKWARD,
         RIGHT,
-        LEFT,
-        OTHER
+        LEFT
     }
 

@@ -64,6 +64,15 @@ public class World {
         yield_the_arguments_to_the_console(args);
         Direction[] args_enum = switch_to_enum(args);
         run(args_enum);
+
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+
+        System.out.println(MapDirection.SOUTH.toUnitVector());
+
         System.out.println("system zakończył działanie");
     }
 }
