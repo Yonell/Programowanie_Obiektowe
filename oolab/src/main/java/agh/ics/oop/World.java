@@ -58,8 +58,10 @@ public class World {
         Animal animal = new Animal();
 
         System.out.println(animal);
+        System.out.println(OptionsParser.parse(args));
         for(MoveDirection i : OptionsParser.parse(args)){
             animal.move(i);
+            System.out.println(animal);
         }
         System.out.println(animal);
     }
