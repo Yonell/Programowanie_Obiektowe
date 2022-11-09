@@ -7,9 +7,23 @@ import static agh.ics.oop.MapDirection.*;
 public class Animal {
     private MapDirection orientation;
     private Vector2d position;
+
+    private IWorldMap map;
     public Animal(){
         orientation = MapDirection.NORTH;
         position = new Vector2d(2,2);
+    }
+
+    public Animal(IWorldMap map){
+        orientation = MapDirection.NORTH;
+        position = new Vector2d(2,2);
+        this.map = map;
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        orientation = MapDirection.NORTH;
+        position = initialPosition;
+        this.map = map;
     }
 
     public Vector2d getPosition() {
@@ -33,11 +47,16 @@ public class Animal {
         switch(direction){
             case LEFT -> orientation = orientation.previous();
             case RIGHT -> orientation = orientation.next();
-            case BACKWARD -> position = position.subtract(orientation.toUnitVector());
-            case FORWARD -> position = position.add(orientation.toUnitVector());
+            case BACKWARD -> {
+                if(map.canMoveTo(position.subtract(orientation.toUnitVector())))
+                    position = position.subtract(orientation.toUnitVector());
+                map.place(this);
+            }
+            case FORWARD -> {
+                if(map.canMoveTo(position.add(orientation.toUnitVector())))
+                    position = position.add(orientation.toUnitVector());
+                map.place(this);
+            }
         }
-
-        position = position.upperRight(new Vector2d(0,0));
-        position = position.lowerLeft(new Vector2d(4,4));
     }
 }
