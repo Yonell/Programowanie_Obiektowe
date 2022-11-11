@@ -36,7 +36,7 @@ public class Animal {
 
     @Override
     public String toString(){
-        return ("Location: " + position.toString() + "\nOrientation: " + orientation);
+        return (orientation.toString());
     }
 
     public boolean isAt(Vector2d position){
@@ -50,12 +50,10 @@ public class Animal {
             case BACKWARD -> {
                 if(map.canMoveTo(position.subtract(orientation.toUnitVector())))
                     position = position.subtract(orientation.toUnitVector());
-                map.place(this);
             }
             case FORWARD -> {
                 if(map.canMoveTo(position.add(orientation.toUnitVector())))
                     position = position.add(orientation.toUnitVector());
-                map.place(this);
             }
         }
     }
