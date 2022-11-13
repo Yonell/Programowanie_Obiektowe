@@ -19,8 +19,7 @@ public class RectangularMap implements IWorldMap{
         if(!(LOWER_BOUND.precedes(dest))) return false;
         if(!(UPPER_BOUND.follows(dest))) return false;
         if(isOccupied(dest)) return false;
-        if(objectAt(dest) != null) return false;
-        return true;
+        return objectAt(dest) == null;
     }
 
     @Override
@@ -54,9 +53,5 @@ public class RectangularMap implements IWorldMap{
     public String toString() {
         MapVisualizer visualizer = new MapVisualizer(this);
         return visualizer.draw(LOWER_BOUND, UPPER_BOUND);
-    }
-
-    public void moveAnimals(MoveDirection direction, int i){
-        animals.get(i % animals.size()).move(direction);
     }
 }
