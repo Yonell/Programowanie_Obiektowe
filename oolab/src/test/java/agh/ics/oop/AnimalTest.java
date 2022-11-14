@@ -9,26 +9,27 @@ class AnimalTest {
     public void orientationChangeTest(){
         Animal animal = new Animal();
         animal.move(MoveDirection.LEFT);
-        assertEquals("Zachód", animal.getOrientation().toString());
+        assertEquals("<", animal.getOrientation().toString());
         animal.move(MoveDirection.LEFT);
-        assertEquals("Południe", animal.getOrientation().toString());
+        assertEquals("v", animal.getOrientation().toString());
         animal.move(MoveDirection.LEFT);
-        assertEquals("Wschód", animal.getOrientation().toString());
+        assertEquals(">", animal.getOrientation().toString());
         animal.move(MoveDirection.LEFT);
-        assertEquals("Północ", animal.getOrientation().toString());
+        assertEquals("^", animal.getOrientation().toString());
         animal.move(MoveDirection.RIGHT);
-        assertEquals("Wschód", animal.getOrientation().toString());
+        assertEquals(">", animal.getOrientation().toString());
         animal.move(MoveDirection.RIGHT);
-        assertEquals("Południe", animal.getOrientation().toString());
+        assertEquals("v", animal.getOrientation().toString());
         animal.move(MoveDirection.RIGHT);
-        assertEquals("Zachód", animal.getOrientation().toString());
+        assertEquals("<", animal.getOrientation().toString());
         animal.move(MoveDirection.RIGHT);
-        assertEquals("Północ", animal.getOrientation().toString());
+        assertEquals("^", animal.getOrientation().toString());
     }
 
     @Test
     public void positionChangeTest(){
-        Animal animal = new Animal();
+        RectangularMap map = new RectangularMap(4,4);
+        Animal animal = new Animal(map, new Vector2d(2,2));
         animal.move(MoveDirection.FORWARD);
         assertTrue(animal.isAt(new Vector2d(2,3)));
         animal.move(MoveDirection.BACKWARD);
@@ -52,7 +53,8 @@ class AnimalTest {
 
     @Test
     public void mapBoundsTest(){
-        Animal animal = new Animal();
+        RectangularMap map = new RectangularMap(5,5);
+        Animal animal = new Animal(map, new Vector2d(2,2));
         animal.move(MoveDirection.FORWARD);
         animal.move(MoveDirection.FORWARD);
         animal.move(MoveDirection.FORWARD);

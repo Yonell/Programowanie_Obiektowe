@@ -5,7 +5,7 @@ import java.util.List;
 
 public class RectangularMap implements IWorldMap{
 
-    public List<Animal> animals = new ArrayList<>();
+    private List<Animal> animals = new ArrayList<>();
     private static final Vector2d LOWER_BOUND = new Vector2d(0,0);
     private static Vector2d UPPER_BOUND; /* Yup, I know it's not a constant value,
     but I will still use it like that, because it's convenient */
