@@ -55,24 +55,12 @@ public class World {
     }
 
     public static void main(String[] args) {
-        System.out.println("system wystartował");
-        System.out.println();
-        if(args.length == 0) {
-            System.out.println("Zwierzak nie ma co robic, koncze dzialanie programu");
-            System.exit(0);
+        Animal animal = new Animal();
+
+        System.out.println(animal);
+        for(MoveDirection i : OptionsParser.parse(args)){
+            animal.move(i);
         }
-        yield_the_arguments_to_the_console(args);
-        Direction[] args_enum = switch_to_enum(args);
-        run(args_enum);
-
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
-
-        System.out.println(MapDirection.SOUTH.toUnitVector());
-
-        System.out.println("system zakończył działanie");
+        System.out.println(animal);
     }
 }
