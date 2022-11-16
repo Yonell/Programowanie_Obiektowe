@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import java.util.Objects;
 import java.util.Vector;
 
 import static agh.ics.oop.MapDirection.*;
