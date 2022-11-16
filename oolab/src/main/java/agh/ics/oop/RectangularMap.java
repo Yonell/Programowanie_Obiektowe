@@ -7,7 +7,7 @@ public class RectangularMap implements IWorldMap{
 
     private List<Animal> animals = new ArrayList<>();
     private static final Vector2d LOWER_BOUND = new Vector2d(0,0);
-    private static Vector2d upper_bound;
+    private static Vector2d upper_bound; /* upper bound inclusive */
 
     public RectangularMap(int width, int height){
         upper_bound = new Vector2d(width-1, height-1);
@@ -15,9 +15,7 @@ public class RectangularMap implements IWorldMap{
 
     @Override
     public boolean canMoveTo(Vector2d dest){
-        if(!(LOWER_BOUND.precedes(dest))) return false;
-        if(!(upper_bound.follows(dest))) return false;
-        return !isOccupied(dest);
+        return !this.isOccupied(dest) && LOWER_BOUND.precedes(dest) && upper_bound.follows(dest);
     }
 
     @Override
@@ -35,12 +33,10 @@ public class RectangularMap implements IWorldMap{
 
     @Override
     public Object objectAt(Vector2d position) {
-        for(Animal i : animals){
-            if(i.isAt(position)){
-                return i;
-            }
-        }
-        return null;
+        return animals.stream()
+                .filter(i -> i.isAt(position))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
