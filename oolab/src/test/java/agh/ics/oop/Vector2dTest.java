@@ -10,8 +10,8 @@ public class Vector2dTest {
         Vector2d vector1 = new Vector2d(1,0);
         Vector2d vector2 = new Vector2d(1,0);
         Vector2d vector3 = new Vector2d(0,0);
-        assertTrue(vector1.equals(vector2));
-        assertFalse(vector1.equals(vector3));
+        assertEquals(vector1, vector2);
+        assertNotEquals(vector1, vector3);
     }
 
     @Test

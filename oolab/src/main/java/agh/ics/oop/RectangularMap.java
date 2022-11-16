@@ -5,22 +5,19 @@ import java.util.List;
 
 public class RectangularMap implements IWorldMap{
 
-    public List<Animal> animals = new ArrayList<>();
+    private List<Animal> animals = new ArrayList<>();
     private static final Vector2d LOWER_BOUND = new Vector2d(0,0);
-    private static Vector2d UPPER_BOUND; /* Yup, I know it's not a constant value,
-    but I will still use it like that, because it's convenient */
+    private static Vector2d upper_bound;
 
-    RectangularMap(int width, int height){
-        UPPER_BOUND = new Vector2d(width-1, height-1);
+    public RectangularMap(int width, int height){
+        upper_bound = new Vector2d(width-1, height-1);
     }
 
     @Override
     public boolean canMoveTo(Vector2d dest){
         if(!(LOWER_BOUND.precedes(dest))) return false;
-        if(!(UPPER_BOUND.follows(dest))) return false;
-        if(isOccupied(dest)) return false;
-        if(objectAt(dest) != null) return false;
-        return true;
+        if(!(upper_bound.follows(dest))) return false;
+        return !isOccupied(dest);
     }
 
     @Override
@@ -33,11 +30,7 @@ public class RectangularMap implements IWorldMap{
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for(Animal i : animals){
-            if(i.isAt(position))
-                return true;
-        }
-        return false;
+        return (objectAt(position) != null);
     }
 
     @Override
@@ -53,10 +46,6 @@ public class RectangularMap implements IWorldMap{
     @Override
     public String toString() {
         MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(LOWER_BOUND, UPPER_BOUND);
-    }
-
-    public void moveAnimals(MoveDirection direction, int i){
-        animals.get(i % animals.size()).move(direction);
+        return visualizer.draw(LOWER_BOUND, upper_bound);
     }
 }

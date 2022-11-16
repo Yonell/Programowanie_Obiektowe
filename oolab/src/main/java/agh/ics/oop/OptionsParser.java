@@ -8,8 +8,8 @@ public class OptionsParser {
         int counter = 0;
         MoveDirection[] potential = new MoveDirection[args.length];
 
-        for(int i = 0 ; i<args.length; i+=1){
-            switch (args[i]){
+        for(String arg : args){
+            switch (arg){
                 case "f", "forward" -> {
                     potential[counter] = MoveDirection.FORWARD;
                     counter+=1;
