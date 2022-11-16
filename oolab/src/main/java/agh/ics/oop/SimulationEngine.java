@@ -6,10 +6,10 @@ import java.util.List;
 public class SimulationEngine implements IEngine{
 
     public Animal[] animals;
-    IWorldMap map;
-    MoveDirection[] directions;
+    private IWorldMap map;
+    private MoveDirection[] directions;
 
-    SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] placement){
+    public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] placement){
         animals = new Animal[placement.length];
         for(int i=0; i<placement.length; i++){
             animals[i] = new Animal(map, placement[i]);
