@@ -1,6 +1,8 @@
 package agh.ics.oop;
 
-public record Vector2d(int x,int y) {
+import java.util.List;
+
+public record Vector2d(int x, int y) {
 
     @Override
     public String toString(){

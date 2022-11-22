@@ -4,56 +4,49 @@ import java.util.*;
 
 import static java.lang.Integer.*;
 
-public class GrassField implements IWorldMap{
-
-    private List<Animal> animals = new ArrayList<>();
-    private int grassCount;
+public class GrassField extends AbstractWorldMap{
     private List<Grass> grasses = new ArrayList<>();
+
+    private List<Grass> nDistinctRandomGrasses(int n){
+        Random r = new Random(78543266);
+        Set<Vector2d> vectors = new HashSet<>();
+        while(vectors.size() != n){
+            vectors.add(new Vector2d(r.nextInt(0, (int) Math.sqrt(10*n)),  r.nextInt(0, (int) Math.sqrt(10*n))));
+        }
+
+        return vectors.stream()
+                .map(Grass::new)
+                .toList()
+        ;
+
+    }
 
 
     public GrassField(int grassCount) {
-        this.grassCount = grassCount;
-        int x, y;
-        Vector2d position;
-        Random r = new Random(78543266);
-        boolean found;
-        for(int i=0; i<grassCount; i++)
-        {
-            while(true){
-                position = new Vector2d(r.nextInt(0, (int) Math.sqrt(10*grassCount)),  r.nextInt(0, (int) Math.sqrt(10*grassCount)));
-                found = false;
-                for (Grass j : grasses) {
-                    if (Objects.equals(j.getPosition(), position)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if(found) {
-                    continue;
-                } else {
-                    break;
-                }
-            }
-            grasses.add(new Grass(position));
-        }
+        grasses = nDistinctRandomGrasses(grassCount);
     }
 
 
     @Override
     public boolean canMoveTo(Vector2d dest){
-        return !this.isOccupied(dest);
-    }
-
-
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return (objectAt(position) != null);
+        return !(objectAt(dest) instanceof Animal);
     }
 
 
     @Override
     public Object objectAt(Vector2d position) {
-        try {
+        for(Animal i : animals){
+            if(i.isAt(position)){
+                return i;
+            }
+        }
+        for(Grass i : grasses){
+            if(Objects.equals(i.getPosition(), position)){
+                return i;
+            }
+        }
+        return null;
+/*        try {
             return Objects.requireNonNullElse(
                 animals.stream()
                         .filter(i -> i.isAt(position))
@@ -67,34 +60,34 @@ public class GrassField implements IWorldMap{
         }
         catch(Exception e){
             return null;
-        } //Do zmiany XD
+        } // czasem streamy się nie opłacają */
     }
 
-    @Override
-    public boolean place(Animal animal){
-        if(!canMoveTo(animal.getPosition()))
-            return false;
-        animals.add(animal);
-        return true;
-    }
-
-    @Override
-    public String toString(){
-        Vector2d maximum = new Vector2d(MIN_VALUE, MIN_VALUE);
+    public Vector2d lowerLeftBound(){
         Vector2d minimum = new Vector2d(MAX_VALUE, MAX_VALUE);
 
         for(Grass i : grasses){
-            maximum = maximum.upperRight(i.getPosition());
             minimum = minimum.lowerLeft(i.getPosition());
         }
 
         for(Animal i : animals){
-            maximum = maximum.upperRight(i.getPosition());
             minimum = minimum.lowerLeft(i.getPosition());
         }
 
+        return minimum;
+    }
 
-        MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(minimum, maximum);
+    public Vector2d upperRightBound(){
+        Vector2d maximum = new Vector2d(MIN_VALUE, MIN_VALUE);
+
+        for(Grass i : grasses){
+            maximum = maximum.upperRight(i.getPosition());
+        }
+
+        for(Animal i : animals){
+            maximum = maximum.upperRight(i.getPosition());
+        }
+
+        return maximum;
     }
 }
