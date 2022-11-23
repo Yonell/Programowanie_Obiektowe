@@ -7,9 +7,27 @@ import static agh.ics.oop.MapDirection.*;
 public class Animal {
     private MapDirection orientation;
     private Vector2d position;
+
+    private IWorldMap map;
     public Animal(){
         orientation = MapDirection.NORTH;
         position = new Vector2d(2,2);
+    }
+
+    public Animal(IWorldMap map){
+        orientation = MapDirection.NORTH;
+        position = new Vector2d(2,2);
+        this.map = map;
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        orientation = MapDirection.NORTH;
+        position = initialPosition;
+        this.map = map;
+    }
+
+    public Vector2d getPosition() {
+        return position;
     }
 
     public MapDirection getOrientation(){
@@ -18,7 +36,7 @@ public class Animal {
 
     @Override
     public String toString(){
-        return ("Location: " + position.toString() + "\nOrientation: " + orientation);
+        return (orientation.toString());
     }
 
     public boolean isAt(Vector2d position){
@@ -26,19 +44,17 @@ public class Animal {
     }
 
     public void move(MoveDirection direction){
-        if((this.position.x() == 0 && direction == MoveDirection.LEFT) || (this.position.x() == 4 && direction == MoveDirection.RIGHT) || (this.position.y() == 0 && direction == MoveDirection.BACKWARD) || (this.position.y() == 4 && direction == MoveDirection.FORWARD))
-            return;
-        switch (direction){
-            case FORWARD -> this.position = this.position.add(new Vector2d(0,1));
-            case BACKWARD -> this.position = this.position.add(new Vector2d(0,-1));
-            case LEFT -> this.position = this.position.add(new Vector2d(-1,0));
-            case RIGHT -> this.position = this.position.add(new Vector2d(1,0));
+        switch(direction){
+            case LEFT -> orientation = orientation.previous();
+            case RIGHT -> orientation = orientation.next();
+            case BACKWARD -> {
+                if(map.canMoveTo(position.subtract(orientation.toUnitVector())))
+                    position = position.subtract(orientation.toUnitVector());
+            }
+            case FORWARD -> {
+                if(map.canMoveTo(position.add(orientation.toUnitVector())))
+                    position = position.add(orientation.toUnitVector());
+            }
         }
-        orientation = switch (direction){
-            case LEFT -> WEST;
-            case RIGHT -> EAST;
-            case FORWARD -> NORTH;
-            case BACKWARD -> SOUTH;
-        };
     }
 }
