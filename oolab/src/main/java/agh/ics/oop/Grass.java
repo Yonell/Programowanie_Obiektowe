@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import java.util.Objects;
 import java.util.Vector;
 
 public class Grass {
@@ -11,6 +12,10 @@ public class Grass {
 
     public Vector2d getPosition() {
         return position;
+    }
+
+    public boolean isAt(Vector2d pos){
+        return Objects.equals(position, pos);
     }
 
     @Override

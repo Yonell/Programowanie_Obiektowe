@@ -16,8 +16,7 @@ public class GrassField extends AbstractWorldMap{
 
         return vectors.stream()
                 .map(Grass::new)
-                .toList()
-        ;
+                .toList();
 
     }
 
@@ -35,17 +34,17 @@ public class GrassField extends AbstractWorldMap{
 
     @Override
     public Object objectAt(Vector2d position) {
-        for(Animal i : animals){
+        if(animals.containsKey(position)){
+            return animals.get(position);
+        }
+        for(Grass i : grasses){
             if(i.isAt(position)){
                 return i;
             }
         }
-        for(Grass i : grasses){
-            if(Objects.equals(i.getPosition(), position)){
-                return i;
-            }
-        }
         return null;
+
+
 /*        try {
             return Objects.requireNonNullElse(
                 animals.stream()
@@ -70,8 +69,8 @@ public class GrassField extends AbstractWorldMap{
             minimum = minimum.lowerLeft(i.getPosition());
         }
 
-        for(Animal i : animals){
-            minimum = minimum.lowerLeft(i.getPosition());
+        for(Map.Entry<Vector2d, Animal> i : animals.entrySet()){
+            minimum = minimum.lowerLeft(i.getValue().getPosition());
         }
 
         return minimum;
@@ -84,8 +83,8 @@ public class GrassField extends AbstractWorldMap{
             maximum = maximum.upperRight(i.getPosition());
         }
 
-        for(Animal i : animals){
-            maximum = maximum.upperRight(i.getPosition());
+        for(Map.Entry<Vector2d, Animal> i : animals.entrySet()){
+            maximum = maximum.upperRight(i.getValue().getPosition());
         }
 
         return maximum;

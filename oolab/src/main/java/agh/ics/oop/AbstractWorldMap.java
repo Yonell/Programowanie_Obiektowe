@@ -1,23 +1,18 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractWorldMap implements IWorldMap{
 
-    protected List<Animal> animals = new ArrayList<>();
+    protected Map<Vector2d, Animal> animals = new HashMap<>();
 
     @Override
     public boolean place(Animal animal){
         if(!canMoveTo(animal.getPosition()))
             return false;
-        animals.add(animal);
+        animals.put(animal.getPosition(), animal);
         return true;
-    }
-
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return (objectAt(position) != null);
     }
 
     @Override

@@ -2,6 +2,7 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RectangularMap extends AbstractWorldMap{
 
@@ -19,7 +20,7 @@ public class RectangularMap extends AbstractWorldMap{
 
     @Override
     public Object objectAt(Vector2d position) {
-        return animals.stream()
+        return animals.values().stream()
                 .filter(i -> i.isAt(position))
                 .findFirst()
                 .orElse(null);
