@@ -9,8 +9,9 @@ public abstract class AbstractWorldMap implements IWorldMap{
 
     @Override
     public boolean place(Animal animal){
-        if(!canMoveTo(animal.getPosition()))
+        if(!canMoveTo(animal.getPosition())) {
             return false;
+        }
         animals.add(animal);
         return true;
     }

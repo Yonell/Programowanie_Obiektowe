@@ -7,6 +7,10 @@ import static java.lang.Integer.*;
 public class GrassField extends AbstractWorldMap{
     private List<Grass> grasses = new ArrayList<>();
 
+    public GrassField(int grassCount) {
+        grasses = nDistinctRandomGrasses(grassCount);
+    }
+
     private List<Grass> nDistinctRandomGrasses(int n){
         Random r = new Random(78543266);
         Set<Vector2d> vectors = new HashSet<>();
@@ -17,13 +21,8 @@ public class GrassField extends AbstractWorldMap{
         return vectors.stream()
                 .map(Grass::new)
                 .toList()
-        ;
+                ;
 
-    }
-
-
-    public GrassField(int grassCount) {
-        grasses = nDistinctRandomGrasses(grassCount);
     }
 
 
