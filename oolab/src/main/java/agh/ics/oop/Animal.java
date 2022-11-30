@@ -72,7 +72,7 @@ public class Animal {
         observers.removeIf(i -> Objects.equals(observer, i));
     }
 
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+    private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         for (IPositionChangeObserver i : observers) {
             i.positionChanged(oldPosition, newPosition);
         }
