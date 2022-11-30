@@ -7,23 +7,24 @@ import static org.junit.jupiter.api.Assertions.*;
 class AnimalTest {
     @Test
     public void orientationChangeTest(){
-        Animal animal = new Animal();
+        IWorldMap map = new RectangularMap(4,4);
+        Animal animal = new Animal(map);
         animal.move(MoveDirection.LEFT);
-        assertEquals("<", animal.getOrientation().toString());
+        assertEquals("<", animal.toString());
         animal.move(MoveDirection.LEFT);
-        assertEquals("v", animal.getOrientation().toString());
+        assertEquals("v", animal.toString());
         animal.move(MoveDirection.LEFT);
-        assertEquals(">", animal.getOrientation().toString());
+        assertEquals(">", animal.toString());
         animal.move(MoveDirection.LEFT);
-        assertEquals("^", animal.getOrientation().toString());
+        assertEquals("^", animal.toString());
         animal.move(MoveDirection.RIGHT);
-        assertEquals(">", animal.getOrientation().toString());
+        assertEquals(">", animal.toString());
         animal.move(MoveDirection.RIGHT);
-        assertEquals("v", animal.getOrientation().toString());
+        assertEquals("v", animal.toString());
         animal.move(MoveDirection.RIGHT);
-        assertEquals("<", animal.getOrientation().toString());
+        assertEquals("<", animal.toString());
         animal.move(MoveDirection.RIGHT);
-        assertEquals("^", animal.getOrientation().toString());
+        assertEquals("^", animal.toString());
     }
 
     @Test

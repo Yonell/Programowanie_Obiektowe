@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import java.util.Objects;
 import java.util.Vector;
 
 import static agh.ics.oop.MapDirection.*;
@@ -9,21 +10,19 @@ public class Animal {
     private Vector2d position;
 
     private IWorldMap map;
-    public Animal(){
+    private Animal(){
         orientation = MapDirection.NORTH;
         position = new Vector2d(2,2);
     }
 
     public Animal(IWorldMap map){
-        orientation = MapDirection.NORTH;
-        position = new Vector2d(2,2);
+        this();
         this.map = map;
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition){
-        orientation = MapDirection.NORTH;
+        this(map);
         position = initialPosition;
-        this.map = map;
     }
 
     public Vector2d getPosition() {
