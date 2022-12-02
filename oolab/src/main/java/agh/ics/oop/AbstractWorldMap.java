@@ -23,6 +23,11 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         return visualizer.draw(lowerLeftBound(), upperRightBound());
     }
 
+    @Override
+    public Object objectAt(Vector2d position) {
+        return animals.get(position);
+    }
+
     protected abstract Vector2d upperRightBound();
 
     protected abstract Vector2d lowerLeftBound();

@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 group 'org.example'
@@ -16,8 +17,14 @@ java {
     }
 }
 
+
+
 repositories {
     mavenCentral()
+    javafx {
+        version = "17"
+        modules = [ 'javafx.controls' ]
+    }
 }
 
 dependencies {
