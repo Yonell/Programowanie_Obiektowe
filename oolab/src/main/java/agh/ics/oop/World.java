@@ -1,7 +1,6 @@
 package agh.ics.oop;
+import agh.ics.oop.gui.App;
 import javafx.application.Application;
-
-import java.util.Arrays;
 
 public class World {
     private App app = new App();

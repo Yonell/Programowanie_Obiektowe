@@ -8,9 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class OptionsParserTest {
     @Test
     public void parserTest(){
-        String[] args = new String[]{"f", "b", "l", "r", "dsgsvcz", "", "forward", "backward", "left", "right"};
-        MoveDirection[] directions = parse(args);
-        MoveDirection[] expected = new MoveDirection[]{MoveDirection.FORWARD,MoveDirection.BACKWARD,MoveDirection.LEFT,MoveDirection.RIGHT,MoveDirection.FORWARD,MoveDirection.BACKWARD,MoveDirection.LEFT,MoveDirection.RIGHT};
-        assertArrayEquals(expected, directions);
+        Exception e = assertThrows(IllegalArgumentException.class, () ->{
+            parse(new String[]{"f", "b", "l", "r", "dsgsvcz", "", "forward", "backward", "left", "right", "b"});
+        });
+        assertEquals(new IllegalArgumentException("dsgsvcz is not legal move specification").toString(), e.toString());
+        assertArrayEquals(new MoveDirection[]{MoveDirection.FORWARD,MoveDirection.BACKWARD,MoveDirection.LEFT,
+                MoveDirection.RIGHT,MoveDirection.FORWARD,MoveDirection.BACKWARD,MoveDirection.LEFT,MoveDirection.RIGHT},
+                parse(new String[]{"f", "b", "l", "r", "forward", "backward", "left", "right"}));
     }
 }

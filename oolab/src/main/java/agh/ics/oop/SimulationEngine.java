@@ -12,9 +12,9 @@ public class SimulationEngine implements IEngine{
 
     public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] placement){
         animals = new ArrayList<>();
-        for(int i=0; i<placement.length; i++){
-            animals.add(new Animal(map, placement[i]));
-            map.place(animals.get(animals.size()-1));
+        for (Vector2d vector2d : placement) {
+            animals.add(new Animal(map, vector2d));
+            map.place(animals.get(animals.size() - 1));
         }
         this.directions = directions;
         this.map = map;
