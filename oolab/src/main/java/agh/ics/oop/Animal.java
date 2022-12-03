@@ -24,6 +24,7 @@ public class Animal extends MapObject {
 
     public Animal(IWorldMap map, Vector2d initialPosition){
         this(map);
+        id = Objects.hash(initialPosition);
         position = initialPosition;
     }
 

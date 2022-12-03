@@ -6,6 +6,7 @@ import static java.lang.Integer.*;
 
 public class GrassField extends AbstractWorldMap{
     private Map<Vector2d, Grass> grasses = new HashMap<>();
+    MapBoundary boundaryCalculator = new MapBoundary();
 
     public GrassField(int grassCount) {
         grasses = nDistinctRandomGrasses(grassCount);
@@ -18,11 +19,21 @@ public class GrassField extends AbstractWorldMap{
             vectors.add(new Vector2d(r.nextInt(0, (int) Math.sqrt(10*n)),  r.nextInt(0, (int) Math.sqrt(10*n))));
         }
         Map<Vector2d, Grass> grasses = new HashMap<>();
+        Grass grass;
         for (Vector2d pos : vectors) {
-            grasses.put(pos, new Grass(pos));
+            grass = new Grass(pos);
+            grasses.put(pos, grass);
+            boundaryCalculator.place(grass);
         }
         return grasses;
 
+    }
+
+    @Override
+    public boolean place(Animal animal){
+        super.place(animal);
+        boundaryCalculator.place(animal);
+        return true;
     }
 
 
@@ -40,30 +51,10 @@ public class GrassField extends AbstractWorldMap{
     }
 
     public Vector2d lowerLeftBound(){
-        Vector2d minimum = new Vector2d(MAX_VALUE, MAX_VALUE);
-
-        for(Vector2d i : grasses.keySet()){
-            minimum = minimum.lowerLeft(i);
-        }
-
-        for(Vector2d i : animals.keySet()){
-            minimum = minimum.lowerLeft(i);
-        }
-
-        return minimum;
+        return boundaryCalculator.lowerLeftBound();
     }
 
     public Vector2d upperRightBound(){
-        Vector2d maximum = new Vector2d(MIN_VALUE, MIN_VALUE);
-
-        for(Vector2d i : grasses.keySet()){
-            maximum = maximum.upperRight(i);
-        }
-
-        for(Vector2d i : animals.keySet()){
-            maximum = maximum.upperRight(i);
-        }
-
-        return maximum;
+        return boundaryCalculator.upperRightBound();
     }
 }

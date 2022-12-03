@@ -4,37 +4,8 @@ import java.util.Comparator;
 import java.util.Objects;
 
 public class MapObject{
+    protected int id;
     protected Vector2d position;
-
-    static Comparator<MapObject> compareToByX = new Comparator<>() {
-        @Override
-        public int compare(MapObject o1, MapObject o2) {
-            if (o1.getClass() != o2.getClass()) {
-                return (o1 instanceof Animal) ? 1 : -1;
-            }
-            return Integer.compare(((MapObject) o1).position.x(), ((MapObject) o2).position.x());
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return false;
-        }
-    };
-
-    static Comparator<MapObject> compareToByY = new Comparator<>() {
-        @Override
-        public int compare(MapObject o1, MapObject o2) {
-            if (o1.getClass() != o2.getClass()) {
-                return (o1 instanceof Animal) ? 1 : -1;
-            }
-            return Integer.compare(((MapObject) o1).position.y(), ((MapObject) o2).position.y());
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return false;
-        }
-    };
 
     public Vector2d getPosition() {
         return position;
@@ -54,6 +25,6 @@ public class MapObject{
 
     @Override
     public int hashCode() {
-        return Objects.hash(position);
+        return Objects.hash(position, this instanceof Animal);
     }
 }

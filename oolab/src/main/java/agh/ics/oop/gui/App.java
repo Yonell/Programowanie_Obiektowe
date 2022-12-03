@@ -27,7 +27,7 @@ public class App extends Application {
         try {
             directions = OptionsParser.parse(args.toArray(new String[0]));
             map = new GrassField(10);
-            Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(2, 2)};
+            Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
             engine = new SimulationEngine(directions, map, positions);
             engine.run();
         } catch (Exception e) {

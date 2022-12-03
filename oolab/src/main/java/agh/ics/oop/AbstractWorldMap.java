@@ -34,7 +34,6 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         Animal animal = animals.remove(oldPosition);
-        System.out.println(animal.getPosition() == newPosition);
         animals.put(newPosition, animal);
     }
 }
