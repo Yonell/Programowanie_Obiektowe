@@ -8,7 +8,7 @@ That flaw caused a situation in which there was no guarantee it would find an ob
 
 public record classTypeAndPositionTuple(Vector2d position, Class<?> classType) {
 
-    static Comparator<classTypeAndPositionTuple> compareToByX = new Comparator<>() {
+    static final Comparator<classTypeAndPositionTuple> compareToByX = new Comparator<>() {
         @Override
         public int compare(classTypeAndPositionTuple o1, classTypeAndPositionTuple o2) {
             if (o1.position().x() != o2.position().x()) {

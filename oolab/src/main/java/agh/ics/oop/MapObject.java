@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.Objects;
 
 public class MapObject{
-    protected int id;
     protected Vector2d position;
 
     public Vector2d getPosition() {

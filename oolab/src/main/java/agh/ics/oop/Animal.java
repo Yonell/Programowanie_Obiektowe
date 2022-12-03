@@ -9,7 +9,7 @@ import static agh.ics.oop.MapDirection.*;
 
 public class Animal extends MapObject {
     private MapDirection orientation;
-    private List<IPositionChangeObserver> observers = new ArrayList<>();
+    private final List<IPositionChangeObserver> observers = new ArrayList<>();
 
     private IWorldMap map;
     private Animal(){
@@ -24,7 +24,6 @@ public class Animal extends MapObject {
 
     public Animal(IWorldMap map, Vector2d initialPosition){
         this(map);
-        id = Objects.hash(initialPosition);
         position = initialPosition;
     }
 

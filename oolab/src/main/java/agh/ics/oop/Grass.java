@@ -7,7 +7,6 @@ public class Grass extends MapObject {
 
     public Grass(Vector2d position){
         this.position = position;
-        id = Objects.hash(position);
     }
 
     @Override
