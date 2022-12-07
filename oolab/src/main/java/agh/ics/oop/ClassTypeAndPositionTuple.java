@@ -4,13 +4,14 @@ import java.util.Comparator;
 
 /* I had to make this record, because there was a bug causing MabBoundary not to delete an object from a TreeList.
 The comparator I used to automate sorting had either no information about oldPosition or newPosition.
-That flaw caused a situation in which there was no guarantee it would find an object to remove. */
+That flaw caused a situation in which there was no guarantee it would find an object to remove.
+I have lost 3 hours of my life debugging it. \:c */
 
-public record classTypeAndPositionTuple(Vector2d position, Class<?> classType) {
+public record ClassTypeAndPositionTuple(Vector2d position, Class<?> classType) {
 
-    static final Comparator<classTypeAndPositionTuple> compareToByX = new Comparator<>() {
+    static final Comparator<ClassTypeAndPositionTuple> compareToByX = new Comparator<>() {
         @Override
-        public int compare(classTypeAndPositionTuple o1, classTypeAndPositionTuple o2) {
+        public int compare(ClassTypeAndPositionTuple o1, ClassTypeAndPositionTuple o2) {
             if (o1.position().x() != o2.position().x()) {
                 return Integer.compare(o1.position.x(), o2.position.x());
             }
@@ -22,16 +23,11 @@ public record classTypeAndPositionTuple(Vector2d position, Class<?> classType) {
             }
             return 0;
         }
-
-        @Override
-        public boolean equals(Object obj) {
-            return false;
-        }
     };
 
-    static Comparator<classTypeAndPositionTuple> compareToByY = new Comparator<>() {
+    static Comparator<ClassTypeAndPositionTuple> compareToByY = new Comparator<>() {
         @Override
-        public int compare(classTypeAndPositionTuple o1, classTypeAndPositionTuple o2) {
+        public int compare(ClassTypeAndPositionTuple o1, ClassTypeAndPositionTuple o2) {
             if (o1.position().y() != o2.position().y()) {
                 return Integer.compare(o1.position.y(), o2.position.y());
             }
@@ -43,10 +39,10 @@ public record classTypeAndPositionTuple(Vector2d position, Class<?> classType) {
             }
             return 0;
         }
-
-        @Override
-        public boolean equals(Object obj) {
-            return false;
-        }
     };
+
+    @Override
+    public String toString() {
+        return position + " " + classType();
+    }
 }

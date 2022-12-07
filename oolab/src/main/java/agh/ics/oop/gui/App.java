@@ -20,6 +20,9 @@ import java.util.stream.Stream;
 public class App extends Application {
     private AbstractWorldMap map;
 
+    private final GridPane grid = new GridPane();
+    private final Scene scene = new Scene(grid, 400, 400);
+
     public void start(Stage primaryStage) {
         List<String> args = getParameters().getRaw();
         MoveDirection[] directions = new MoveDirection[0];
@@ -30,20 +33,15 @@ public class App extends Application {
             Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
             engine = new SimulationEngine(directions, map, positions);
             engine.run();
-        } catch (Exception e) {
-            if (e instanceof IllegalArgumentException) {
-                System.out.println(e);
-                System.exit(-420);
-            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+            System.exit(-420);
         }
-
-        GridPane grid = new GridPane();
-        Scene scene = new Scene(grid, 400, 400);
 
         primaryStage.setScene(scene);
         grid.setGridLinesVisible(true);
 
-        addMapToOutput(grid);
+        addMapToOutput();
         grid.getColumnConstraints().add(new ColumnConstraints(20));
         grid.getRowConstraints().add(new RowConstraints(20));
         for (int i = 0; i < map.upperRightBound().x() - map.lowerLeftBound().x() + 1; i++) {
@@ -57,7 +55,7 @@ public class App extends Application {
         primaryStage.show();
     }
 
-    private void addMapToOutput(GridPane grid) {
+    private void addMapToOutput() {
 
         List<Label> labels = new ArrayList<>();
 
