@@ -47,7 +47,7 @@ public class App extends Application {
         for (int i = 0; i < map.upperRightBound().x() - map.lowerLeftBound().x() + 1; i++) {
             grid.getColumnConstraints().add(new ColumnConstraints(15));
         }
-        for (int i = 0; i < map.upperRightBound().x() - map.lowerLeftBound().x() + 1; i++) {
+        for (int i = 0; i < map.upperRightBound().y() - map.lowerLeftBound().y() + 1; i++) {
             grid.getRowConstraints().add(new RowConstraints(15));
         }
         //grid.setAlignment(Pos.CENTER); //Uncomment to center the grid
