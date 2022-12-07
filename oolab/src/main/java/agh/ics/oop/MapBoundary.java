@@ -17,7 +17,7 @@ public class MapBoundary implements IPositionChangeObserver{
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        objectsX.remove(new ClassTypeAndPositionTuple(oldPosition, Animal.class)); //next labs without the hashmap, because it's useless
+        objectsX.remove(new ClassTypeAndPositionTuple(oldPosition, Animal.class)); 
         objectsX.add(new ClassTypeAndPositionTuple(newPosition, Animal.class));
         objectsY.remove(new ClassTypeAndPositionTuple(oldPosition, Animal.class));
         objectsY.add(new ClassTypeAndPositionTuple(newPosition, Animal.class));
