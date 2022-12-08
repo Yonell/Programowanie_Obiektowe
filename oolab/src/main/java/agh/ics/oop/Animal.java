@@ -3,11 +3,8 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Vector;
 
-import static agh.ics.oop.MapDirection.*;
-
-public class Animal extends MapElement {
+public class Animal extends AbstractMapElement {
     private MapDirection orientation;
     private final List<IPositionChangeObserver> observers = new ArrayList<>();
 
@@ -70,10 +67,15 @@ public class Animal extends MapElement {
     }
     public String getImagePath(){
         return switch (orientation){
-            case NORTH -> "resources/animalN.png";
-            case SOUTH -> "resources/animalS.png";
-            case WEST -> "resources/animalW.png";
-            case EAST -> "resources/animalE.png";
+            case NORTH -> "src/main/resources/animalN.png";
+            case SOUTH -> "src/main/resources/animalS.png";
+            case WEST -> "src/main/resources/animalW.png";
+            case EAST -> "src/main/resources/animalE.png";
         };
+    }
+
+    @Override
+    public String getMapLabel() {
+        return position.toString();
     }
 }
