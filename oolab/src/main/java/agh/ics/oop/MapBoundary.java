@@ -10,9 +10,9 @@ public class MapBoundary implements IPositionChangeObserver{
         return;
     }
 
-    public void place(MapObject object){
-        objectsX.add(new ClassTypeAndPositionTuple(object.position, object.getClass()));
-        objectsY.add(new ClassTypeAndPositionTuple(object.position, object.getClass()));
+    public void place(IMapElement object){
+        objectsX.add(new ClassTypeAndPositionTuple(object.getPosition(), object.getClass()));
+        objectsY.add(new ClassTypeAndPositionTuple(object.getPosition(), object.getClass()));
     }
 
     @Override

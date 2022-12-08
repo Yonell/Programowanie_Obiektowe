@@ -1,9 +1,8 @@
 package agh.ics.oop;
 
-import java.util.Comparator;
 import java.util.Objects;
 
-public class MapObject{
+public abstract class MapElement implements IMapElement {
     protected Vector2d position;
 
     public Vector2d getPosition() {
@@ -18,7 +17,7 @@ public class MapObject{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
-        MapObject mapObject = (MapObject) o;
+        MapElement mapObject = (MapElement) o;
         return position.equals(mapObject.position);
     }
 

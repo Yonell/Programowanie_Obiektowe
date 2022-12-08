@@ -7,7 +7,7 @@ import java.util.Vector;
 
 import static agh.ics.oop.MapDirection.*;
 
-public class Animal extends MapObject {
+public class Animal extends MapElement {
     private MapDirection orientation;
     private final List<IPositionChangeObserver> observers = new ArrayList<>();
 
@@ -67,5 +67,13 @@ public class Animal extends MapObject {
         for (IPositionChangeObserver i : observers) {
             i.positionChanged(oldPosition, newPosition);
         }
+    }
+    public String getImagePath(){
+        return switch (orientation){
+            case NORTH -> "resources/animalN.png";
+            case SOUTH -> "resources/animalS.png";
+            case WEST -> "resources/animalW.png";
+            case EAST -> "resources/animalE.png";
+        };
     }
 }
