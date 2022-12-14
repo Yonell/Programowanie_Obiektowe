@@ -7,15 +7,14 @@ import java.util.Vector;
 
 import static agh.ics.oop.MapDirection.*;
 
-public class Animal {
+public class Animal extends MapObject {
     private MapDirection orientation;
-    private Vector2d position;
-    private List<IPositionChangeObserver> observers = new ArrayList<>();
+    private final List<IPositionChangeObserver> observers = new ArrayList<>();
 
     private IWorldMap map;
     private Animal(){
         orientation = MapDirection.NORTH;
-        position = new Vector2d(2,2);
+        super.position = new Vector2d(2,2);
     }
 
     public Animal(IWorldMap map){
@@ -28,10 +27,6 @@ public class Animal {
         position = initialPosition;
     }
 
-    public Vector2d getPosition() {
-        return position;
-    }
-
     public MapDirection getOrientation(){
         return orientation;
     }
@@ -39,10 +34,6 @@ public class Animal {
     @Override
     public String toString(){
         return (orientation.toString());
-    }
-
-    public boolean isAt(Vector2d position){
-        return position.equals(this.position);
     }
 
     public void move(MoveDirection direction){
@@ -72,7 +63,7 @@ public class Animal {
         observers.removeIf(i -> Objects.equals(observer, i));
     }
 
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+    private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         for (IPositionChangeObserver i : observers) {
             i.positionChanged(oldPosition, newPosition);
         }

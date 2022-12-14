@@ -24,6 +24,10 @@ public class GrassFieldTest {
         assertFalse(map.isOccupied(new Vector2d(1,1)));
         map.place(new Animal(map, new Vector2d(1, 1)));
         assertTrue(map.isOccupied(new Vector2d(1,1)));
+        Exception e = assertThrows(IllegalArgumentException.class, () ->{
+            map.place(new Animal(map, new Vector2d(1, 1)));
+        });
+        assertEquals(new IllegalArgumentException("(1,1) is not a valid place to place an animal").toString(), e.toString());
     }
 
     @Test

@@ -10,7 +10,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     @Override
     public boolean place(Animal animal){
         if(!canMoveTo(animal.getPosition())) {
-            return false;
+            throw new IllegalArgumentException(animal.getPosition() + " is not a valid place to place an animal");
         }
         animals.put(animal.getPosition(), animal);
         animal.addObserver(this);
@@ -23,13 +23,17 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         return visualizer.draw(lowerLeftBound(), upperRightBound());
     }
 
-    protected abstract Vector2d upperRightBound();
+    @Override
+    public Object objectAt(Vector2d position) {
+        return animals.get(position);
+    }
 
-    protected abstract Vector2d lowerLeftBound();
+    public abstract Vector2d upperRightBound();
+
+    public abstract Vector2d lowerLeftBound();
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         Animal animal = animals.remove(oldPosition);
-        System.out.println(animal.getPosition() == newPosition);
         animals.put(newPosition, animal);
     }
 }

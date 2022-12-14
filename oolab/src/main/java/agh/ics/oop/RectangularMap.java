@@ -18,14 +18,6 @@ public class RectangularMap extends AbstractWorldMap{
         return !(objectAt(dest) instanceof Animal) && LOWER_BOUND.precedes(dest) && upper_bound.follows(dest);
     }
 
-    @Override
-    public Object objectAt(Vector2d position) {
-        return animals.values().stream()
-                .filter(i -> i.isAt(position))
-                .findFirst()
-                .orElse(null);
-    }
-
     public Vector2d lowerLeftBound(){
         return LOWER_BOUND;
     }
