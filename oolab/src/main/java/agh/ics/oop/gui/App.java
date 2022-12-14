@@ -2,94 +2,148 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.*;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 
-public class App extends Application {
+public class App extends Application implements IFrameChangeObserver {
     private AbstractWorldMap map;
+    private IEngine engine;
+    private Stage primaryStage;
+    private final GridPane grid = new GridPane();
+    private Scene scene;
 
-    public void start(Stage primaryStage) {
+    public App(){
+        super();
+    }
+
+    @Override
+    public void init() throws Exception {
+        super.init();
         List<String> args = getParameters().getRaw();
         MoveDirection[] directions = new MoveDirection[0];
-        IEngine engine = null;
         try {
             directions = OptionsParser.parse(args.toArray(new String[0]));
             map = new GrassField(10);
-            Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
+            Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4), new Vector2d(2, 4), new Vector2d(1, 3), new Vector2d(-1, 2)};
             engine = new SimulationEngine(directions, map, positions);
-            engine.run();
-        } catch (Exception e) {
-            if (e instanceof IllegalArgumentException) {
-                System.out.println(e);
-                System.exit(-420);
-            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.toString());
+            System.exit(-420);
         }
+        scene = new Scene(grid, 700, 700);
 
-        GridPane grid = new GridPane();
-        Scene scene = new Scene(grid, 400, 400);
+        setUpGrid();
+        addMapToOutput();
+        setUpInterface();
+        engine.addObserver(this);
+    }
 
+    public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         primaryStage.setScene(scene);
-        grid.setGridLinesVisible(true);
-
-        addMapToOutput(grid);
-        grid.getColumnConstraints().add(new ColumnConstraints(20));
-        grid.getRowConstraints().add(new RowConstraints(20));
-        for (int i = 0; i < map.upperRightBound().x() - map.lowerLeftBound().x() + 1; i++) {
-            grid.getColumnConstraints().add(new ColumnConstraints(15));
-        }
-        for (int i = 0; i < map.upperRightBound().y() - map.lowerLeftBound().y() + 1; i++) {
-            grid.getRowConstraints().add(new RowConstraints(15));
-        }
-        //grid.setAlignment(Pos.CENTER); //Uncomment to center the grid
-
         primaryStage.show();
     }
 
-    private void addMapToOutput(GridPane grid) {
+    private void setUpGrid() {
+        grid.setGridLinesVisible(true);
+        grid.getColumnConstraints().add(new ColumnConstraints(20));
+        grid.getRowConstraints().add(new RowConstraints(20));
+        for (int i = 0; i < map.upperRightBound().x() - map.lowerLeftBound().x() + 2; i++) {
+            grid.getColumnConstraints().add(new ColumnConstraints(40));
+        }
+        for (int i = 0; i < map.upperRightBound().y() - map.lowerLeftBound().y() + 1; i++) {
+            grid.getRowConstraints().add(new RowConstraints(40));
+        }
+        grid.setAlignment(Pos.CENTER); //Uncomment to center the grid
+    }
 
-        List<Label> labels = new ArrayList<>();
+    private void addMapToOutput() {
 
-        labels.add(new Label("y/x"));
-        grid.add(labels.get(0),0,0);
+        List<Node> nodes = new ArrayList<>();
+        GuiElementBox box = null;
+
+        nodes.add(new Label("y/x"));
+        grid.add(nodes.get(0),0,0);
         for(int x = 0; x<=map.upperRightBound().x()-map.lowerLeftBound().x(); x++){
-            labels.add(new Label(Integer.toString(x + map.lowerLeftBound().x())));
-            grid.add(labels.get(labels.size()-1),x+1, 0);
+            nodes.add(new Label(Integer.toString(x + map.lowerLeftBound().x())));
+            grid.add(nodes.get(nodes.size()-1),x+1, 0);
         }
         for(int y = 0; y<=map.upperRightBound().y()-map.lowerLeftBound().y(); y++){
-            labels.add(new Label(Integer.toString(map.upperRightBound().y() - y )));
-            grid.add(labels.get(labels.size()-1),0, y+1);
+            nodes.add(new Label(Integer.toString(map.upperRightBound().y() - y )));
+            grid.add(nodes.get(nodes.size()-1),0, y+1);
         }
         for(int x = map.lowerLeftBound().x(); x<=map.upperRightBound().x(); x++){
             for(int y = map.upperRightBound().y(); y>=map.lowerLeftBound().y(); y--){
                 if(map.objectAt(new Vector2d(x,y)) == null) {
-                    labels.add(new Label(" "));
-                    grid.add(labels.get(labels.size()-1),
+                    nodes.add(new Label(" "));
+                    grid.add(nodes.get(nodes.size()-1),
                             x - map.lowerLeftBound().x() + 1, map.upperRightBound().y() - y + 1);
                 }else{
-                    labels.add(new Label(map.objectAt(new Vector2d(x, y)).toString()));
-                    grid.add(labels.get(labels.size()-1),
+                    try {
+                        box = new GuiElementBox((IMapElement) map.objectAt(new Vector2d(x, y)));
+                    }catch (FileNotFoundException e){
+                        System.out.println("File not found");
+                        return;
+                    }
+                    grid.add(box.getVBox(),
                             x - map.lowerLeftBound().x() + 1, map.upperRightBound().y() - y + 1);
+                    nodes.add(box.getVBox());
                 }
             }
         }
-        for (Label i:
-             labels) {
+        for (Node i:
+             nodes) {
             GridPane.setHalignment(i, HPos.CENTER);
             GridPane.setValignment(i, VPos.CENTER);
         }
     }
 
+    private void setUpInterface(){
+        TextField tf = new TextField();
+        Button b = new Button("Update Directions");
+        b.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                engine.setDirections(OptionsParser.parse(tf.getText().split(" ")));
+                new Thread(engine).start();
+            }
+        });
+        VBox directionsAdder = new VBox(tf, b);
+        grid.add(directionsAdder, map.upperRightBound().x() - map.lowerLeftBound().x() + 4, (map.upperRightBound().y() + map.lowerLeftBound().y())/2);
+    }
 
+
+    @Override
+    public void FrameChanged() {
+        Platform.runLater(() -> {
+            grid.getChildren().clear();
+            grid.getRowConstraints().clear();
+            grid.getColumnConstraints().clear();
+            addMapToOutput();
+            setUpGrid();
+            setUpInterface();
+            grid.setGridLinesVisible(true);
+            primaryStage.show();
+        });
+    }
 }

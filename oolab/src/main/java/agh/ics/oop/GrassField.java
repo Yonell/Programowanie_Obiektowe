@@ -33,6 +33,7 @@ public class GrassField extends AbstractWorldMap{
     public boolean place(Animal animal){
         super.place(animal);
         boundaryCalculator.place(animal);
+        animal.addObserver(boundaryCalculator);
         return true;
     }
 

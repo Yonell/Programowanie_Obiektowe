@@ -3,8 +3,8 @@ import agh.ics.oop.gui.App;
 import javafx.application.Application;
 
 public class World {
-    private App app = new App();
+    private final App app = new App();
     public static void main(String[] args) {
-        Application.launch(App.class, args);
+        App.launch(App.class, args);
     }
 }

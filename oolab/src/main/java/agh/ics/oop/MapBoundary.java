@@ -3,31 +3,24 @@ package agh.ics.oop;
 import java.util.*;
 
 public class MapBoundary implements IPositionChangeObserver{
-    private Vector2d position;
-    private final Map<Vector2d, classTypeAndPositionTuple> objects = new HashMap<>();
-    private final SortedSet<classTypeAndPositionTuple> objectsX = new TreeSet<>(classTypeAndPositionTuple.compareToByX);
-    private final SortedSet<classTypeAndPositionTuple> objectsY = new TreeSet<>(classTypeAndPositionTuple.compareToByY);
+    private final SortedSet<ClassTypeAndPositionTuple> objectsX = new TreeSet<>(ClassTypeAndPositionTuple.compareToByX);
+    private final SortedSet<ClassTypeAndPositionTuple> objectsY = new TreeSet<>(ClassTypeAndPositionTuple.compareToByY);
 
     public MapBoundary(){
         return;
     }
 
-    public void place(MapObject object){
-        objects.put(object.position, new classTypeAndPositionTuple(object.position, object.getClass()));
-        objectsX.add(new classTypeAndPositionTuple(object.position, object.getClass()));
-        objectsY.add(new classTypeAndPositionTuple(object.position, object.getClass()));
-        if(object instanceof Animal){
-            ((Animal) object).addObserver(this);
-        }
+    public void place(IMapElement object){
+        objectsX.add(new ClassTypeAndPositionTuple(object.getPosition(), object.getClass()));
+        objectsY.add(new ClassTypeAndPositionTuple(object.getPosition(), object.getClass()));
     }
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        objectsX.remove(objects.get(oldPosition));
-        objectsX.add(new classTypeAndPositionTuple(newPosition, objects.get(oldPosition).classType()));
-        objectsY.remove(objects.get(oldPosition));
-        objectsY.add(new classTypeAndPositionTuple(newPosition, objects.get(oldPosition).classType()));
-        objects.put(newPosition, new classTypeAndPositionTuple(newPosition, objects.remove(oldPosition).classType()));
+        objectsX.remove(new ClassTypeAndPositionTuple(oldPosition, Animal.class));
+        objectsX.add(new ClassTypeAndPositionTuple(newPosition, Animal.class));
+        objectsY.remove(new ClassTypeAndPositionTuple(oldPosition, Animal.class));
+        objectsY.add(new ClassTypeAndPositionTuple(newPosition, Animal.class));
     }
     public Vector2d lowerLeftBound(){
         return new Vector2d(objectsX.first().position().x(), objectsY.first().position().y());
